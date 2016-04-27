@@ -2,6 +2,7 @@ package pl.govirtual.stylizacja24;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,7 +30,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         login_et = (EditText)findViewById(R.id.loginOrEmailTextField);
+        login_et.setText("jratajski@govirtual.pl");
         password_et = (EditText)findViewById(R.id.passwordTextField);
+        password_et.setText("test123");
     }
 
     public void login(View v)
@@ -41,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                dialog.cancel();
                 try{
                     int errorCode = Integer.parseInt(response.body().getErrorCode());
                     if(errorCode == 0){
@@ -50,6 +54,10 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences.Editor loginPreferencesEditor = loginPreferences.edit();
 
                         loginPreferencesEditor.putString(apitoken, API_TOKEN_KEY);
+
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        LoginActivity.this.finish();
                     } else if(errorCode == -1001) {
                         Toast.makeText(LoginActivity.this, "Błędny login lub hasło", Toast.LENGTH_LONG).show();
                     }
@@ -63,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-
+                dialog.cancel();
             }
         });
 
