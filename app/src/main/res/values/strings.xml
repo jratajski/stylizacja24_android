@@ -2,7 +2,7 @@
     <string name="app_name">Stylizacja24</string>
     <string name="logowanie">Logowanie:</string>
     <string name="loginEmail">Login / Email:</string>
-    <string name="password">password</string>
+    <string name="password">Hasło:</string>
     <string name="login">Zaloguj się</string>
     <string name="dontHaveAccount">Nie mam konta</string>
 </resources>
