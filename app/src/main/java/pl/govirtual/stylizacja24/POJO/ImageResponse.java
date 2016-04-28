@@ -8,47 +8,47 @@ import com.google.gson.annotations.SerializedName;
 
 public class ImageResponse {
 
-    @SerializedName("errorCode")
-    @Expose
-    private String errorCode;
     @SerializedName("content")
     @Expose
     private List<ImageContent> content = new ArrayList<ImageContent>();
+    @SerializedName("errorCode")
+    @Expose
+    private Integer errorCode;
 
     /**
-     * 
+     *
      * @return
-     *     The errorCode
-     */
-    public String getErrorCode() {
-        return errorCode;
-    }
-
-    /**
-     * 
-     * @param errorCode
-     *     The errorCode
-     */
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    /**
-     * 
-     * @return
-     *     The content
+     * The content
      */
     public List<ImageContent> getContent() {
         return content;
     }
 
     /**
-     * 
+     *
      * @param content
-     *     The content
+     * The content
      */
     public void setContent(List<ImageContent> content) {
         this.content = content;
+    }
+
+    /**
+     *
+     * @return
+     * The errorCode
+     */
+    public Integer getErrorCode() {
+        return errorCode;
+    }
+
+    /**
+     *
+     * @param errorCode
+     * The errorCode
+     */
+    public void setErrorCode(Integer errorCode) {
+        this.errorCode = errorCode;
     }
 
 }

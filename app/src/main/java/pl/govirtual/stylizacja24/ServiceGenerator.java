@@ -30,6 +30,12 @@ public class ServiceGenerator {
     }
 
     public static <S> S createService(Class<S> serviceClass, final String authToken) {
+        OkHttpClient client = getClient(authToken);
+        Retrofit retrofit = builder.client(client).build();
+        return retrofit.create(serviceClass);
+    }
+
+    public static OkHttpClient getClient(final String authToken) {
         if (authToken != null) {
             httpClient.addInterceptor(new Interceptor() {
                 @Override
@@ -38,7 +44,7 @@ public class ServiceGenerator {
 
                     // Request customization: add request headers
                     Request.Builder requestBuilder = original.newBuilder()
-                            .header("Authorization", authToken)
+                            .header("Authorization", "Bearer " + authToken)
                             .method(original.method(), original.body());
 
                     Request request = requestBuilder.build();
@@ -51,8 +57,6 @@ public class ServiceGenerator {
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         httpClient.addInterceptor(logging);
 
-        OkHttpClient client = httpClient.build();
-        Retrofit retrofit = builder.client(client).build();
-        return retrofit.create(serviceClass);
+        return httpClient.build();
     }
 }

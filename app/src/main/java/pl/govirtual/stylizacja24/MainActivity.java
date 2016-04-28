@@ -28,30 +28,20 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    Stylizacja24API stylizacjaService;
+    DressingListFragment dressingListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences loginPreferences =
-                getSharedPreferences(LoginActivity.LOGIN_PREFERENCES, Context.CONTEXT_IGNORE_SECURITY);
+        SharedPreferences loginPreferences = getSharedPreferences(LoginActivity.LOGIN_PREFERENCES, Context.MODE_PRIVATE);
 
-        Stylizacja24API stylizacjaService = ServiceGenerator.
-                createService(Stylizacja24API.class, loginPreferences.getString(LoginActivity.API_TOKEN_KEY, ""));
-        Call<List<ImageResponse>> call = stylizacjaService.getDressingList();
-        call.enqueue(new Callback<List<ImageResponse>>() {
+        String apiToken = loginPreferences.getString(LoginActivity.API_TOKEN_KEY, "");
 
-            @Override
-            public void onResponse(Call<List<ImageResponse>> call, Response<List<ImageResponse>> response) {
-                Toast.makeText(MainActivity.this, response.body().size(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFailure(Call<List<ImageResponse>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
+        stylizacjaService = ServiceGenerator.createService(Stylizacja24API.class, apiToken);
+        dressingListFragment = new DressingListFragment();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -63,11 +53,33 @@ public class MainActivity extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+
+
+        getDressingData();
+    }
+
+    private void getDressingData() {
+        Call<ImageResponse> call = stylizacjaService.getDressingList();
+        call.enqueue(new Callback<ImageResponse>() {
+
+            @Override
+            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
+                if (response.body().getErrorCode() == 0) {
+                    dressingListFragment.updateData(response.body().getContent());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ImageResponse> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new DressingListFragment(), "Moje Stylizacje");
+        adapter.addFragment(dressingListFragment, "Moje Stylizacje");
         adapter.addFragment(new DressingListFragment(), "Moje Wizaże");
         adapter.addFragment(new DressingListFragment(), "Dodaj Zdjęcie");
         adapter.addFragment(new DressingListFragment(), "Muszę Mieć");

@@ -23,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final String LOGIN_PREFERENCES = "LoginPReferences";
     public static final String API_TOKEN_KEY = "apiTokenKey";
+    SharedPreferences loginPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
         login_et.setText("jratajski@govirtual.pl");
         password_et = (EditText)findViewById(R.id.passwordTextField);
         password_et.setText("test123");
+
+        loginPreferences = getSharedPreferences(LOGIN_PREFERENCES, Context.MODE_PRIVATE);
     }
 
     public void login(View v)
@@ -50,10 +53,9 @@ public class LoginActivity extends AppCompatActivity {
                     if(errorCode == 0){
                         String apitoken = response.body().getContent().getApiToken();
 
-                        SharedPreferences loginPreferences = getSharedPreferences(LOGIN_PREFERENCES, Context.CONTEXT_IGNORE_SECURITY);
                         SharedPreferences.Editor loginPreferencesEditor = loginPreferences.edit();
-
-                        loginPreferencesEditor.putString(apitoken, API_TOKEN_KEY);
+                        loginPreferencesEditor.putString(API_TOKEN_KEY, apitoken);
+                        loginPreferencesEditor.commit();
 
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);

@@ -24,5 +24,5 @@ public interface Stylizacja24API {
     public Call<LoginResponse> registerUser(@Field("login") String name, @Field("email") String email, @Field("password") String password, @Field("sex") Character sex, @Field("age") int age, @Field("district") int district, @Field("preferred_size") int preferred_size);
 
     @GET("/api/v1/przymierzalnia/list")
-    public Call<List<ImageResponse>> getDressingList();
+    public Call<ImageResponse> getDressingList();
 }
