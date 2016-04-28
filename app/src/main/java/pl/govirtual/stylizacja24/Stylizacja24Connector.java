@@ -33,6 +33,4 @@ public class Stylizacja24Connector {
         }
         return stylizacja24ApiInterface ;
     }
-
-
 }
