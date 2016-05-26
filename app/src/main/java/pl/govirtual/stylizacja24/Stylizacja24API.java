@@ -25,4 +25,7 @@ public interface Stylizacja24API {
 
     @GET("/api/v1/przymierzalnia/list")
     public Call<ImageResponse> getDressingList();
+
+    @GET("/api/v1/wizaz/list")
+    public Call<ImageResponse> getVisageList();
 }

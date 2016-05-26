@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     Stylizacja24API stylizacjaService;
     DressingListFragment dressingListFragment;
+    VisageGridViewFragment visageGridViewFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         stylizacjaService = ServiceGenerator.createService(Stylizacja24API.class, apiToken);
         dressingListFragment = new DressingListFragment();
+        visageGridViewFragment = new VisageGridViewFragment();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         getDressingData();
+        getVisageData();
     }
 
     private void getDressingData() {
@@ -77,10 +80,28 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void getVisageData() {
+        Call<ImageResponse> call = stylizacjaService.getVisageList();
+        call.enqueue(new Callback<ImageResponse>() {
+
+            @Override
+            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
+                if (response.body().getErrorCode() == 0) {
+                    visageGridViewFragment.updateData(response.body().getContent());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ImageResponse> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(dressingListFragment, "Moje Stylizacje");
-        adapter.addFragment(new DressingListFragment(), "Moje Wizaże");
+        adapter.addFragment(visageGridViewFragment, "Moje Wizaże");
         adapter.addFragment(new DressingListFragment(), "Dodaj Zdjęcie");
         adapter.addFragment(new DressingListFragment(), "Muszę Mieć");
         adapter.addFragment(new DressingListFragment(), "Moje Konto");

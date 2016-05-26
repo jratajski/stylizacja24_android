@@ -28,8 +28,8 @@ import retrofit2.Response;
  * Created by Admin on 27.04.16.
  */
 public class DressingListFragment extends ListFragment {
-    ArrayList<String> itemCaption;
-    ArrayList<String> itemImageUrl;
+    ArrayList<String> itemCaption = new ArrayList<String>();
+    ArrayList<String> itemImageUrl = new ArrayList<String>();
     ImageAndTextArrayAdapter mListAdapter;
 
     @Override
@@ -37,12 +37,7 @@ public class DressingListFragment extends ListFragment {
         // The last two arguments ensure LayoutParams are inflated
         // properly.
         View rootView = inflater.inflate(R.layout.dressing_list_layout, container, false);
-
-        itemCaption = new ArrayList<String>();
-        itemImageUrl = new ArrayList<String>();
-
         mListAdapter = new ImageAndTextArrayAdapter(this.getActivity(), itemCaption, itemImageUrl);
-
         this.setListAdapter(mListAdapter);
 
         return rootView;
