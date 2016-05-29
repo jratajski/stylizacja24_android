@@ -5,4 +5,5 @@
     <string name="password">Hasło:</string>
     <string name="login">Zaloguj się</string>
     <string name="dontHaveAccount">Nie mam konta</string>
+    <string name="add_image_text">Tutaj możesz zrobić i automatycznie załadować na swoje konto www.stylizacja24.pl zdjęcie sylwetki, lub twarzy do przymierzalni, lub wirtualnego wizażu. Uwaga! Do zrobienia zdjęcia sylwetki potrzebna Ci będzie pomoc drugiej osoby.</string>
 </resources>

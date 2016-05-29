@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     Stylizacja24API stylizacjaService;
     DressingListFragment dressingListFragment;
     VisageGridViewFragment visageGridViewFragment;
+    AddImageFragment addImageFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         stylizacjaService = ServiceGenerator.createService(Stylizacja24API.class, apiToken);
         dressingListFragment = new DressingListFragment();
         visageGridViewFragment = new VisageGridViewFragment();
+        addImageFragment = new AddImageFragment();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -98,17 +100,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setupViewPager(ViewPager viewPager) {
+    private void setupViewPager(ViewPager viewPager)
+    {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(dressingListFragment, "Moje Stylizacje");
         adapter.addFragment(visageGridViewFragment, "Moje Wizaże");
-        adapter.addFragment(new DressingListFragment(), "Dodaj Zdjęcie");
+        adapter.addFragment(addImageFragment, "Dodaj Zdjęcie");
         adapter.addFragment(new DressingListFragment(), "Muszę Mieć");
         adapter.addFragment(new DressingListFragment(), "Moje Konto");
         viewPager.setAdapter(adapter);
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    class ViewPagerAdapter extends FragmentPagerAdapter
+    {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 

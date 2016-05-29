@@ -2,13 +2,17 @@ package pl.govirtual.stylizacja24;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import pl.govirtual.stylizacja24.POJO.ImageResponse;
 import pl.govirtual.stylizacja24.POJO.LoginResponse;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 /**
  * Created by Jakub Ratajski on 25.04.16.
@@ -28,4 +32,12 @@ public interface Stylizacja24API {
 
     @GET("/api/v1/wizaz/list")
     public Call<ImageResponse> getVisageList();
+
+    @Multipart
+    @POST("/api/v1/upload/siluette")
+    public Call uploadSiluette(@Part MultipartBody.Part file);
+
+    @Multipart
+    @POST("/api/v1/upload/visage")
+    public Call uploadVisage(@Part MultipartBody.Part file);
 }
