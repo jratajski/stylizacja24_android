@@ -6,6 +6,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import pl.govirtual.stylizacja24.POJO.ImageResponse;
 import pl.govirtual.stylizacja24.POJO.LoginResponse;
+import pl.govirtual.stylizacja24.POJO.UploadResponse;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -35,9 +36,9 @@ public interface Stylizacja24API {
 
     @Multipart
     @POST("/api/v1/upload/siluette")
-    public Call uploadSiluette(@Part MultipartBody.Part file);
+    public Call<UploadResponse> uploadSiluette(@Part MultipartBody.Part file);
 
     @Multipart
     @POST("/api/v1/upload/visage")
-    public Call uploadVisage(@Part MultipartBody.Part file);
+    public Call<UploadResponse> uploadVisage(@Part MultipartBody.Part file);
 }

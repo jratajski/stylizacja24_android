@@ -22,6 +22,7 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import pl.govirtual.stylizacja24.POJO.UploadResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -103,26 +104,26 @@ public class ApprovePhotoActivity extends Activity
 
         // MultipartBody.Part is used to send also the actual file name
         MultipartBody.Part body =
-                MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
+                MultipartBody.Part.createFormData("uploadFile", file.getName(), requestFile);
 
         // finally, execute the request
-        Call<ResponseBody> call;
+        Call<UploadResponse> call;
             if(is_for_visage) {
                 call = service.uploadVisage(body);
             } else {
                 call = service.uploadSiluette(body);
             }
 
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<UploadResponse>() {
             @Override
-            public void onResponse(Call<ResponseBody> call,
-                                   Response<ResponseBody> response) {
+            public void onResponse(Call<UploadResponse> call,
+                                   Response<UploadResponse> response) {
                 Log.v("Upload", "success");
                 ApprovePhotoActivity.this.finish();
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<UploadResponse> call, Throwable t) {
                 Log.e("Upload error:", t.getMessage());
             }
         });
