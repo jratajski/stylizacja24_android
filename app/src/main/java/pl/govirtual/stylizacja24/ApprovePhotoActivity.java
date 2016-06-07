@@ -64,7 +64,10 @@ public class ApprovePhotoActivity extends Activity
         rejectbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(ApprovePhotoActivity.this, MakePhotoActivity.class);
+                intent.putExtra(AddImageFragment.IS_VISAGE_EXTRA, is_for_visage);
+                startActivity(intent);
+                ApprovePhotoActivity.this.finish();
             }
         });
     }
