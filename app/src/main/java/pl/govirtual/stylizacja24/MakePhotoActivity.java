@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -38,6 +39,16 @@ public class MakePhotoActivity extends Activity {
         super.onCreate(savedInstanceState);
         for_visage = getIntent().getBooleanExtra(AddImageFragment.IS_VISAGE_EXTRA, false);
         setContentView(R.layout.take_visage_photo_layout);
+        if (for_visage)
+        {
+            ImageView filter = (ImageView)findViewById(R.id.visage_photo_filter);
+            filter.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            ImageView filter = (ImageView)findViewById(R.id.siluette_photo_filter);
+            filter.setVisibility(View.VISIBLE);
+        }
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         myContext = this;
 
