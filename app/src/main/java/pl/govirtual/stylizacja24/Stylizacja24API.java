@@ -7,6 +7,8 @@ import okhttp3.RequestBody;
 import pl.govirtual.stylizacja24.POJO.ImageResponse;
 import pl.govirtual.stylizacja24.POJO.LoginResponse;
 import pl.govirtual.stylizacja24.POJO.UploadResponse;
+import pl.govirtual.stylizacja24.POJO.UserInfo;
+import pl.govirtual.stylizacja24.POJO.UserInfoResponse;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -33,6 +35,9 @@ public interface Stylizacja24API {
 
     @GET("/api/v1/wizaz/list")
     public Call<ImageResponse> getVisageList();
+
+    @GET("/api/v1/user-info")
+    public Call<UserInfoResponse> getUserInfo();
 
     @Multipart
     @POST("/api/v1/upload/siluette")

@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.govirtual.stylizacja24.POJO.ImageResponse;
+import pl.govirtual.stylizacja24.POJO.UserInfo;
+import pl.govirtual.stylizacja24.POJO.UserInfoResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     DressingListFragment dressingListFragment;
     VisageGridViewFragment visageGridViewFragment;
     AddImageFragment addImageFragment;
+    MyAccountFragment myAccountFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         dressingListFragment = new DressingListFragment();
         visageGridViewFragment = new VisageGridViewFragment();
         addImageFragment = new AddImageFragment();
+        myAccountFragment = new MyAccountFragment();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -62,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         getDressingData();
         getVisageData();
+        getValidityData();
     }
 
     private void getDressingData() {
@@ -100,6 +105,24 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void getValidityData() {
+        Call<UserInfoResponse> call = stylizacjaService.getUserInfo();
+        call.enqueue(new Callback<UserInfoResponse>() {
+
+            @Override
+            public void onResponse(Call<UserInfoResponse> call, Response<UserInfoResponse> response) {
+                if (response.body().getErrorCode() == 0) {
+                    myAccountFragment.updateDate(response.body().getContent());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserInfoResponse> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     private void setupViewPager(ViewPager viewPager)
     {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -107,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(visageGridViewFragment, "Moje Wizaże");
         adapter.addFragment(addImageFragment, "Dodaj Zdjęcie");
         adapter.addFragment(new DressingListFragment(), "Muszę Mieć");
-        adapter.addFragment(new DressingListFragment(), "Moje Konto");
+        adapter.addFragment(myAccountFragment, "Moje Konto");
         viewPager.setAdapter(adapter);
     }
 

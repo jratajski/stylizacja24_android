@@ -31,9 +31,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         login_et = (EditText)findViewById(R.id.loginOrEmailTextField);
-        login_et.setText("jratajski@govirtual.pl");
         password_et = (EditText)findViewById(R.id.passwordTextField);
-        password_et.setText("test123");
 
         loginPreferences = getSharedPreferences(LOGIN_PREFERENCES, Context.MODE_PRIVATE);
     }
